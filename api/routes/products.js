@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Product = require('../models/Product')
+const checkAuth = require('../middleware/check-auth')
 
 const multer = require('multer')
 
@@ -67,7 +68,7 @@ router.get('/',async (req,res,next) => {
     }
 })
 
-router.post('/', upload.single('productImage') ,async (req,res,next) => {
+router.post('/', checkAuth ,upload.single('productImage') ,async (req,res,next) => {
     try {
         const createdProduct = await new Product({
             name: req.body.name,
@@ -88,7 +89,7 @@ router.post('/', upload.single('productImage') ,async (req,res,next) => {
     }
 })
 
-router.get('/:productId',async (req,res,next) => {
+router.get('/:productId',checkAuth,async (req,res,next) => {
     try {
         const id = req.params.productId
         const singleProduct = await Product.findById(id).select('price name productImage _id')
@@ -109,7 +110,7 @@ router.get('/:productId',async (req,res,next) => {
     }
 })
 
-router.put('/:productId',async (req,res,next) => {
+router.put('/:productId',checkAuth,async (req,res,next) => {
     try {
         const id = req.params.productId
         const updatedPost = await Product.findById(id)
@@ -127,7 +128,7 @@ router.put('/:productId',async (req,res,next) => {
     }
 })
 
-router.delete('/:productId',async (req,res,next) => {
+router.delete('/:productId',checkAuth,async (req,res,next) => {
     try {
         const id = req.params.productId
         const deletedProduct = await Product.findByIdAndRemove(id)
