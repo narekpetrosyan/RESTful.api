@@ -63,11 +63,6 @@ router.get('/:orderId',async (req,res,next) => {
     }
 })
 
-router.put('/:productId',(req,res,next) => {
-    res.status(200).json({
-        message: "patched"
-    })
-})
 
 router.delete('/:orderId',async (req,res,next) => {
     try {
